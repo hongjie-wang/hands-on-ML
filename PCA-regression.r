@@ -7,6 +7,7 @@ library(caret)
 library(dplyr)
 library(rsample)
 library(ggplot2)
+library(vip)
 
 ames<- AmesHousing::make_ames()
 
@@ -27,3 +28,5 @@ cv_model_pcr<-train(
 )
 print(cv_model_pcr$bestTune)
 ggplot(cv_model_pcr)
+
+
