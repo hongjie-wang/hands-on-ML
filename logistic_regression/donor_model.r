@@ -157,3 +157,23 @@ ideal_cutoff <-optimalCutoff(
 test_class<-ifelse(test_pred>=ideal_cutoff,1,0)
 
 table(donor_test$respondedMailing,test_class)
+
+
+
+# we can use the caret pacakge confusion matrix directly
+test_class<-as.factor(test_class)
+donor_matrix<-caret::confusionMatrix(test_class,
+                                     donor_test$respondedMailing,positive="1")
+
+# ROCR gives ROC plots and AUC
+
+roc_pred <-
+  ROCR::prediction(
+    predictions = test_pred,
+    labels = donor_test$respondedMailing
+  )
+roc_perf <- ROCR::performance(roc_pred, measure = "tpr", x.measure = "fpr")
+plot(roc_perf, main = "ROC Curve", col = "green", lwd = 3)
+abline(a = 0, b = 1, lwd = 3, lty = 2, col = 1)
+mod_auc<-ROCR::performance(roc_pred, measure = "auc")
+unlist(slot(mod_auc,"y.values"))
