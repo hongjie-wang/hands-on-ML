@@ -1,3 +1,4 @@
+#Hongjie Wang 3-29-2021.
 # example of using pre-processing and control in fitting KNN
 rm(list=ls())
 library(dplyr)
@@ -30,6 +31,10 @@ cv<-trainControl(
   number=10,
   repeats=5
 )
+
+# we can findout what hyperparameter is subject to tuning in knn
+
+caret::modelLookup("knn")
 
 hyper_grid<-expand.grid(k=seq(2,25,by=1))
 
